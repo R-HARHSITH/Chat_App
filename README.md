@@ -6,4 +6,4 @@ Terminal 2: <br />
 npm run server <br />
 still developing <br />
 left to develop:<br />
-implementation of socket.io for making app real time <br />
+implementation of socket.io for making website real time <br />
