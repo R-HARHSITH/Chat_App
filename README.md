@@ -1,9 +1,9 @@
-Open two terminals 
-Terminal 1:
-cd frontend
-npm run dev
-Terminal 2:
-npm run server
-still developing 
-left to develop:
-implementation of socket.io for making app real time
+Open two terminals <br />
+Terminal 1: <br />
+cd frontend <br />
+npm run dev <br />
+Terminal 2: <br />
+npm run server <br />
+still developing <br />
+left to develop:<br />
+implementation of socket.io for making app real time <br />
