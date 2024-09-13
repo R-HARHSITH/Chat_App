@@ -2,7 +2,7 @@ import {useState,useEffect} from 'react'
 
 const useGetConversation = () => {
     const[loading,setLoading]=useState(false);
-    const[conversation,setConversations]=useState([]);
+    const[conversations,setConversations]=useState([]);
 
     useEffect(() => {
     const getConversation=async()=>{
@@ -23,7 +23,7 @@ const useGetConversation = () => {
     getConversation();
     
     }, []);
-    return {loading,conversation};
+    return {loading,conversations};
     
 }
 

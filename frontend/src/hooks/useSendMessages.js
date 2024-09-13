@@ -4,8 +4,9 @@ import toast from 'react-hot-toast'
 
 const useSendMessages = () => {
   const [loading,setLoading]=useState(false);
-  const {messages,setMessages,selectedConversation}=useConversation(); 
-  const sendMessage=async(message)=>{
+  const { selectedConversation, setSelectedConversation, messages, setMessages } = useConversation();
+
+  const sendMessages=async(message)=>{
     setLoading(true);
     try {
         const res=await fetch(`/api/messages/send/${selectedConversation._id}`,
@@ -28,7 +29,7 @@ const useSendMessages = () => {
         setLoading(false);
     }
   }
-  return {loading,sendMessage};
+  return {loading,sendMessages};
 }
 
 export default useSendMessages;

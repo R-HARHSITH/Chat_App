@@ -1,21 +1,23 @@
 import Conversation from "../models/conversationmodel.js";
 import Message from "../models/messagemodel.js";
+import { getReceiverSocketId } from "../socket/socket.js";
+import { io } from "../socket/socket.js";
 export const sendMessage=async(req,res)=>{
     try {
         const {message}=req.body;
-        const {id:recieverId}=req.params;
+        const {id:receiverId}=req.params;
         const senderId=req.user._id;
-        const conversation=await Conversation.findOne({
-            participants:{$all:[senderId,recieverId]},
+        let conversation=await Conversation.findOne({
+            participants:{$all:[senderId,receiverId]},
         });
         if(!conversation){
             conversation=await Conversation.create({
-                participants:[senderId,recieverId],
+                participants:[senderId,receiverId],
             });
         }
         const newMessage=new Message({
             senderId, //senderId, implies senderId:senderId;
-            recieverId,
+            receiverId,
             message,  
         });
         if(newMessage){
@@ -24,7 +26,14 @@ export const sendMessage=async(req,res)=>{
         // await conversation.save();
         // await newMessage.save()
         await Promise.all([conversation.save(),newMessage.save()]);
-        res.status(200).json({newMessage});
+        const receiverSocketId=getReceiverSocketId(receiverId);
+        console.log(receiverSocketId);
+        if(receiverSocketId){
+            // console.log("Hi",receiverSocketId);
+            io.to(receiverSocketId).emit("newMessage",newMessage);
+            // console.log("Bye",receiverSocketId);
+        }
+        res.status(200).json(newMessage);
     } catch (error) {
         console.log("Error in sending message",error.message);
         res.status(500).json({error:"Intarnal server error"});
@@ -40,12 +49,12 @@ export const getMessage=async(req,res)=>{
         }).populate("messages");
        
         if(!conversation){
-            res.status(200).json([]);
+            return res.status(200).json([]);
         }
         const messages=conversation.messages;
         res.status(200).json(messages);
     } catch (error) {
         console.log("Error in sending message",error.message);
-        res.status(500).json({error:"Intarnal server error"});
+        res.status(500).json({error:"Internal server error"});
     }
 }

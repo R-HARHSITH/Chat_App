@@ -3,10 +3,12 @@ import { FaSearch } from "react-icons/fa";
 import toast from 'react-hot-toast';
 import useConversation from '../../zustand/useConvrsation';
 import useGetConversation from '../../hooks/useGetConversation';
+import { useState } from 'react';
 
 const searchInput = () => {
   const [search, setSearch] = useState("");
-	const { setSelectedConversation } = useConversation();
+  const { selectedConversation, setSelectedConversation, messages, setMessages } = useConversation();
+
 	const { conversations } = useGetConversation();
 
 	const handleSubmit = (e) => {
@@ -19,6 +21,7 @@ const searchInput = () => {
 		const conversation = conversations.find((c) => c.fullName.toLowerCase().includes(search.toLowerCase()));
 
 		if (conversation) {
+			// <Conversations />
 			setSelectedConversation(conversation);
 			setSearch("");
 		} else toast.error("No such user found!");

@@ -2,12 +2,12 @@ import React from 'react'
 import Conversation from './conversation'
 import useGetConversation from '../../hooks/useGetConversation';
 const conversations = () => {
-  const {loading,conversation}=useGetConversation();
-  console.log("CONVERSATIONS: ",conversation);
+  const {loading,conversations}=useGetConversation();
+  console.log("CONVERSATIONS: ",conversations);
  
   return (
    <div className='py-2 flex flex-col overflow-auto h-96'>
-    {conversation.map((conversation,idx)=>(
+    {conversations.map((conversation,idx)=>(
       <Conversation key={conversation._id} conversation={conversation}
       lastIndex={idx===(conversation.lenght-1)}></Conversation>
     ))}

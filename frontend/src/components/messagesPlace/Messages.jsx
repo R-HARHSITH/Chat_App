@@ -3,12 +3,14 @@ import { useEffect } from 'react';
 import Message from './Message';
 import useGetMessages from '../../hooks/useGetMessages';
 import MessageSkeleton from '../skeletons/MessageSkeleton';
+import useListenMessages from '../../hooks/useListenMessages';
 const Messages = () => {
-  const {messages=[],loading}=useGetMessages();
+  const {messages,loading}=useGetMessages();
+  useListenMessages();  
   const lastMessage=useRef();
-  // messages.map((message) => (
-    // console.log(message.newMessage.message)
-  // ))
+  messages.map((message) => (
+    console.log(message._id)
+  ))
 useEffect(() => {
   setTimeout(() => {
     lastMessage.current?.scrollIntoView({ behavior: "smooth" });
@@ -20,7 +22,7 @@ useEffect(() => {
       {!loading &&
 				messages.length > 0 &&
 				messages.map((message) => (
-					<div key={message.newMessage._id} ref={lastMessage}>
+					<div key={message._id} ref={lastMessage}>
 						<Message message={message} />
 					</div>
 				))}
@@ -39,7 +41,7 @@ export default Messages;
 
 // import React from 'react'
 // import Message from './message';
-// const messages = () => {
+// const Messages = () => {
 //   return (
 //     <div className='px-4 flex-1 overflow-auto'>
 //       <Message/>
@@ -51,4 +53,4 @@ export default Messages;
 //   )
 // }
 
-// export default messages;
+// export default Messages;
